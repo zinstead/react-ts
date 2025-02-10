@@ -25,11 +25,30 @@ module.exports = {
           {
             test: /\.css$/i,
             // 从右往左
-            use: ['style-loader', 'css-loader'],
+            use: [
+              'style-loader',
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localsConvention: 'camelCase', // 将类名转换为驼峰命名
+                },
+              },
+            ],
           },
           {
             test: /\.less$/i,
-            use: ['style-loader', 'css-loader', 'less-loader'],
+            use: [
+              'style-loader',
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localsConvention: 'camelCase', // 将类名转换为驼峰命名
+                },
+              },
+              'less-loader',
+            ],
           },
           {
             test: /\.(jpe?g|png|gif|webp|svg)$/i,

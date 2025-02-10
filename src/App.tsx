@@ -5,6 +5,7 @@ import {
   useNavigate,
   useRoutes,
 } from 'react-router-dom';
+import styles from './App.module.less';
 
 const App = () => {
   const routes = useRoutes([
@@ -12,8 +13,10 @@ const App = () => {
       path: '/',
       element: (
         <div>
-          <div>主页</div>
+          <div className={styles.homePage}>主页</div>
           <Link to={'/protected'}>受保护页面</Link>
+          <br />
+          <Link to={'/public'}>公共页面</Link>
         </div>
       ),
     },
