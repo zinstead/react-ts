@@ -13,7 +13,15 @@ const threads = os.cpus().length - 1;
 function getStyleLoader(preLoader) {
   return [
     MiniCssExtractPlugin.loader,
-    'css-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: {
+          auto: true,
+          namedExport: false,
+        },
+      },
+    },
     {
       loader: 'postcss-loader',
       options: {

@@ -30,8 +30,10 @@ module.exports = {
               {
                 loader: 'css-loader',
                 options: {
-                  modules: true,
-                  localsConvention: 'camelCase', // 将类名转换为驼峰命名
+                  modules: {
+                    auto: true,
+                    namedExport: false,
+                  },
                 },
               },
             ],
@@ -43,8 +45,11 @@ module.exports = {
               {
                 loader: 'css-loader',
                 options: {
-                  modules: true,
-                  localsConvention: 'camelCase', // 将类名转换为驼峰命名
+                  modules: {
+                    auto: true,
+                    namedExport: false,
+                    localIdentName: '[path][name]__[local]',
+                  },
                 },
               },
               'less-loader',
@@ -97,10 +102,16 @@ module.exports = {
     new ReactRefreshWebpackPlugin(),
   ],
   devServer: {
-    // host: 'localhost',
-    // port: 3000,
     open: true,
     historyApiFallback: true, // 解决前端路由刷新404问题
+    proxy: [
+      {
+        context: '/api',
+        target: 'http://httpbin.org/',
+        changeOrigin: true,
+        pathRewrite: { '^/api': '' },
+      },
+    ],
   },
   mode: 'development',
   devtool: 'eval-source-map',

@@ -8,3 +8,5 @@ root.render(
     <App />
   </BrowserRouter>,
 );
+
+export const a = 100;

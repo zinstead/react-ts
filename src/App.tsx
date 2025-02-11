@@ -6,6 +6,8 @@ import {
   useRoutes,
 } from 'react-router-dom';
 import styles from './App.module.less';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const App = () => {
   const routes = useRoutes([
@@ -37,6 +39,15 @@ const App = () => {
       ),
     },
   ]);
+
+  useEffect(() => {
+    axios.get('/api/get').then(res => {
+      console.log(res);
+    });
+    axios.post('/api/post').then(res => {
+      console.log(res);
+    });
+  }, []);
 
   return <div>{routes}</div>;
 };
