@@ -1,7 +1,8 @@
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
-import Dashboard from '@/components/Dashboard';
-import Home from '@/components/Home';
-import Login from '@/components/Login';
+import Dashboard from '@/pages/Dashboard';
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import NotFound from '@/pages/404';
 
 interface IAuth {
   children: JSX.Element;
@@ -23,19 +24,24 @@ const Routes = () => {
       path: '/',
       element: (
         <RequireAuth>
-          <Dashboard />
+          <Home />
         </RequireAuth>
       ),
       children: [
         {
-          path: '/home',
-          element: <Home />,
+          path: '/dashboard',
+          element: <Dashboard />,
+          index: true,
         },
       ],
     },
     {
       path: '/login',
       element: <Login />,
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ]);
 

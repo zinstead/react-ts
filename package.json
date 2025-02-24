@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/main.js",
   "scripts": {
-    "start": "yarn run dev",
+    "start": "pnpm run dev",
     "dev": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "postinstall": "husky"
@@ -58,7 +58,7 @@
     "@babel/runtime": "^7.26.0",
     "@types/react": "18",
     "@types/react-dom": "18",
-    "antd": "^5.22.2",
+    "antd": "^5.24.0",
     "axios": "^1.7.9",
     "core-js": "^3.39.0",
     "react": "18",
