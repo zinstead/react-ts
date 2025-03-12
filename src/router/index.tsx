@@ -10,8 +10,8 @@ interface IAuth {
 
 const RequireAuth: React.FC<IAuth> = props => {
   const { children } = props;
-  const user = sessionStorage.getItem('user');
-  const location = useLocation();
+  // const user = sessionStorage.getItem('user');
+  // const location = useLocation();
   // if (!user) {
   //   return <Navigate to={'/login'} state={{ from: location }} replace />;
   // }
@@ -29,9 +29,8 @@ const Routes = () => {
       ),
       children: [
         {
-          path: '/dashboard',
+          path: 'dashboard',
           element: <Dashboard />,
-          index: true,
         },
       ],
     },

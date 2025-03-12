@@ -5,8 +5,19 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Layout,
+  Menu,
+  MenuProps,
+  Space,
+  theme,
+} from 'antd';
+import { useEffect, useState } from 'react';
+import styles from './index.module.less';
+import axios from 'axios';
 
 const { Header, Sider, Content } = Layout;
 
@@ -16,10 +27,31 @@ const Dashboard = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  useEffect(() => {
+    axios.get('http://localhost:3000/posts').then(res => {
+      console.log(res.data);
+    });
+    axios.post('http://localhost:3000/posts', {
+      title: 'test',
+      author: 'alan',
+    });
+  }, []);
+
+  const items: MenuProps['items'] = [
+    {
+      key: 'admin',
+      label: '超级管理员',
+    },
+    {
+      key: 'logout',
+      label: '退出',
+    },
+  ];
+
   return (
     <Layout style={{ height: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div className={styles.title}>全球新闻发布管理系统</div>
         <Menu
           theme="dark"
           mode="inline"
@@ -56,7 +88,14 @@ const Dashboard = () => {
                 height: 64,
               }}
             />
-            <div>欢迎你，alan</div>
+            <div style={{ padding: '0 24px' }}>
+              <Space>
+                <span>欢迎你，alan</span>
+                <Dropdown menu={{ items }}>
+                  <Avatar size={32} icon={<UserOutlined />} />
+                </Dropdown>
+              </Space>
+            </div>
           </div>
         </Header>
         <Content
