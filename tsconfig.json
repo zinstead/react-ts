@@ -7,6 +7,7 @@
         "paths": {
             "@/*": ["src/*"],
         },
+        "esModuleInterop": true, // 解决antd无类型
     },
     "include": ["src"],
 }

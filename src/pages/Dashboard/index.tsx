@@ -27,15 +27,35 @@ const Dashboard = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/posts').then(res => {
+  const handleClick = () => {
+    // axios.get('http://localhost:3000/posts').then(res => {
+    //   console.log(res.data);
+    // });
+
+    // axios
+    //   .post('http://localhost:3000/posts', { title: '提交', author: 'zjz' })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   });
+
+    // axios
+    //   .patch('http://localhost:3000/posts/1', { title: 'hello-json' })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   });
+
+    // axios.delete('http://localhost:3000/posts/1').then(res => {
+    //   console.log(res.data);
+    // });
+
+    // axios.get('http://localhost:3000/posts?_embed=comments').then(res => {
+    //   console.log(res.data);
+    // });
+
+    axios.get('http://localhost:3000/comments?_embed=post').then(res => {
       console.log(res.data);
     });
-    axios.post('http://localhost:3000/posts', {
-      title: 'test',
-      author: 'alan',
-    });
-  }, []);
+  };
 
   const items: MenuProps['items'] = [
     {
@@ -107,7 +127,9 @@ const Dashboard = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <Button type="primary" onClick={handleClick}>
+            Button
+          </Button>
         </Content>
       </Layout>
     </Layout>

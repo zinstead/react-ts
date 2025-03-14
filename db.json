@@ -2,25 +2,25 @@
   "posts": [
     {
       "id": "1",
-      "title": "json-server",
+      "title": "hello-json",
       "author": "typicode"
-    },
-    {
-      "id": "057e",
-      "title": "test",
-      "author": "alan"
     },
     {
       "id": "97e7",
       "title": "test",
       "author": "alan"
+    },
+    {
+      "id": "22aa",
+      "title": "提交",
+      "author": "zjz"
     }
   ],
   "comments": [
     {
       "id": "1",
       "body": "some comment",
-      "postId": 1
+      "postId": "97e7"
     }
   ],
   "profile": {
