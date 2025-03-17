@@ -15,7 +15,7 @@ import {
   Space,
   theme,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.less';
 import axios from 'axios';
 
