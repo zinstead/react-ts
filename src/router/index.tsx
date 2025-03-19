@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom';
-import Dashboard from '@/pages/Dashboard';
 import Home from '@/pages/Home';
+import NewsSandbox from '@/pages/NewsSandbox';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/404';
 
@@ -24,13 +24,13 @@ const Routes = () => {
       path: '/',
       element: (
         <RequireAuth>
-          <Home />
+          <NewsSandbox />
         </RequireAuth>
       ),
       children: [
         {
-          path: 'dashboard',
-          element: <Dashboard />,
+          path: 'home',
+          element: <Home />,
         },
       ],
     },
