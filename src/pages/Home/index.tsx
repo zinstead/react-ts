@@ -1,9 +1,7 @@
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from '@ant-design/icons';
 import {
   Avatar,
@@ -15,9 +13,10 @@ import {
   Space,
   theme,
 } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.less';
 import axios from 'axios';
+import { getPageMenuList } from '@/utils';
 
 const { Header, Sider, Content } = Layout;
 
@@ -27,35 +26,9 @@ const Home = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const handleClick = () => {
-    // axios.get('http://localhost:3000/posts').then(res => {
-    //   console.log(res.data);
-    // });
+  const [menuList, setMenuList] = useState([]);
 
-    // axios
-    //   .post('http://localhost:3000/posts', { title: '提交', author: 'zjz' })
-    //   .then(res => {
-    //     console.log(res.data);
-    //   });
-
-    // axios
-    //   .patch('http://localhost:3000/posts/1', { title: 'hello-json' })
-    //   .then(res => {
-    //     console.log(res.data);
-    //   });
-
-    // axios.delete('http://localhost:3000/posts/1').then(res => {
-    //   console.log(res.data);
-    // });
-
-    // axios.get('http://localhost:3000/posts?_embed=comments').then(res => {
-    //   console.log(res.data);
-    // });
-
-    axios.get('http://localhost:3000/comments?_embed=post').then(res => {
-      console.log(res.data);
-    });
-  };
+  const handleClick = () => {};
 
   const items: MenuProps['items'] = [
     {
@@ -68,32 +41,26 @@ const Home = () => {
     },
   ];
 
+  useEffect(() => {
+    axios.get('http://localhost:5000/rights?_embed=children').then(res => {
+      setMenuList(res.data);
+    });
+  }, []);
+
   return (
     <Layout style={{ height: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className={styles.title}>全球新闻发布管理系统</div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
+        <div className={styles.siderContainer}>
+          <div className={styles.siderTitle}>全球新闻发布管理系统</div>
+          <div className={styles.siderMenu}>
+            <Menu
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              items={getPageMenuList(menuList)}
+            />
+          </div>
+        </div>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
