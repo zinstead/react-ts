@@ -1,6 +1,6 @@
-import { useRoutes } from 'react-router-dom';
-import Home from '@/pages/Home';
+import { Navigate, useRoutes } from 'react-router-dom';
 import NewsSandbox from '@/pages/NewsSandbox';
+import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/404';
 
@@ -29,8 +29,16 @@ const Routes = () => {
       ),
       children: [
         {
+          index: true,
+          element: <Navigate to={'/home'} />,
+        },
+        {
           path: 'home',
           element: <Home />,
+        },
+        {
+          path: '*',
+          element: <div>未匹配页面</div>,
         },
       ],
     },
