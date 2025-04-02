@@ -4,3 +4,10 @@ export interface MenuItem{
     children:MenuItem[]
     pagePermission:number;
 }
+
+export interface RightItem{
+    id:string;
+    key:string;
+    label:string;
+    children:RightItem[]
+}

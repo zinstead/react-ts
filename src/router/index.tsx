@@ -1,8 +1,9 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import NewsSandbox from '@/pages/NewsSandbox';
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/404';
+import RightList from '@/pages/right-manage/RightList';
 
 interface IAuth {
   children: JSX.Element;
@@ -35,6 +36,22 @@ const Routes = () => {
         {
           path: 'home',
           element: <Home />,
+        },
+        {
+          path: 'right-manage',
+          element: <Outlet />,
+          children: [
+            {
+              path: 'right',
+              element: <Outlet />,
+              children: [
+                {
+                  path: 'list',
+                  element: <RightList />,
+                },
+              ],
+            },
+          ],
         },
         {
           path: '*',
