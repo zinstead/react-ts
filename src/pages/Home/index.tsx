@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div>
       <Button type="primary" onClick={() => {}}>
-        Button
+        点击
       </Button>
     </div>
   );
