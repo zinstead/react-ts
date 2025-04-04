@@ -1,13 +1,7 @@
 import { Button } from 'antd';
 
 const Home = () => {
-  return (
-    <div>
-      <Button type="primary" onClick={() => {}}>
-        点击
-      </Button>
-    </div>
-  );
+  return <div>home</div>;
 };
 
 export default Home;
