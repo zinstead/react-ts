@@ -1,14 +1,113 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Layout,
+  Menu,
+  MenuProps,
+  Space,
+  theme,
+} from 'antd';
+import { useEffect, useState } from 'react';
+import styles from './index.module.less';
+import axios from 'axios';
+import { getPageMenuList } from '@/utils';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+
+const { Header, Sider, Content } = Layout;
 
 const NewsSandbox = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const [menuList, setMenuList] = useState([]);
+
+  const items: MenuProps['items'] = [
+    {
+      key: 'admin',
+      label: '超级管理员',
+    },
+    {
+      key: 'logout',
+      label: '退出',
+    },
+  ];
+
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const selectedKeys = [pathname];
+  const openKeys = ['/' + pathname.split('/')[1]];
 
   useEffect(() => {
-    navigate('/home');
+    axios.get('http://localhost:3000/rights?_embed=children').then(res => {
+      setMenuList(res.data);
+    });
   }, []);
 
-  return <Outlet />;
+  return (
+    <Layout style={{ height: '100vh' }}>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className={styles.siderContainer}>
+          <div className={styles.siderTitle}>全球新闻发布管理系统</div>
+          <div className={styles.siderMenu}>
+            <Menu
+              theme="dark"
+              mode="inline"
+              items={getPageMenuList(menuList)}
+              selectedKeys={selectedKeys}
+              defaultOpenKeys={openKeys}
+              onClick={info => {
+                navigate(info.key);
+              }}
+            />
+          </div>
+        </div>
+      </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <div style={{ padding: '0 24px' }}>
+              <Space>
+                <span>欢迎你，alan</span>
+                <Dropdown menu={{ items }}>
+                  <Avatar size={32} icon={<UserOutlined />} />
+                </Dropdown>
+              </Space>
+            </div>
+          </div>
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            overflow: 'auto',
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
+    </Layout>
+  );
 };
 
 export default NewsSandbox;

@@ -1,4 +1,4 @@
-import { MenuItem } from '@/types';
+import { MenuItem, RightItem } from '@/types';
 import { isEmpty } from 'lodash';
 
 export const getPageMenuList = (menuList: MenuItem[]): any[] => {
@@ -9,3 +9,12 @@ export const getPageMenuList = (menuList: MenuItem[]): any[] => {
         children: isEmpty(children) ? null : getPageMenuList(children) 
       }));
   };
+
+export const getRightList=(rightList:RightItem[]):any[]=>{
+  return rightList.map(({children,...restItem})=>{
+    return {
+      ...restItem,
+      children:isEmpty(children)?null:getRightList(children)
+    }
+  })
+}
