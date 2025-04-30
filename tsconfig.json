@@ -1,13 +1,16 @@
+
 {
+    "extends":"@tsconfig/create-react-app/tsconfig.json",
     "compilerOptions": {
-        "noEmit": true,
-        "jsx": "preserve",
-        "strict": true,
-        "baseUrl": "./",
         "paths": {
-            "@/*": ["src/*"],
+            "@/*": ["./src/*"],
         },
-        "esModuleInterop": true, // 解决antd无类型
+        // "baseUrl": "./",
+        // "noEmit": true,
+        // "jsx": "preserve",
+        // "strict": true,
+        // "moduleResolution": "node",
+        // "esModuleInterop": true, // 解决antd无类型
     },
     "include": ["src"],
 }
