@@ -1,9 +1,9 @@
 {
   "name": "react-ts",
   "version": "1.0.0",
-  "main": "./src/main.js",
+  "main": "./src/index.tsx",
   "scripts": {
-    "start": "pnpm run dev",
+    "start": "yarn run dev",
     "dev": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
     "postinstall": "husky"
