@@ -18,6 +18,9 @@ import styles from './index.module.less';
 import axios from 'axios';
 import { getPageMenuList } from '@/utils';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useRequest } from 'ahooks';
+import { apiPrefix } from '@/api';
+import { useSidebarStore } from '@/zustand/store';
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,8 +29,6 @@ const NewsSandbox = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  const [menuList, setMenuList] = useState([]);
 
   const items: MenuProps['items'] = [
     {
@@ -45,10 +46,17 @@ const NewsSandbox = () => {
   const selectedKeys = [pathname];
   const openKeys = ['/' + pathname.split('/')[1]];
 
+  const setRefreshMenuList = useSidebarStore(state => state.setRefreshMenuList);
+
+  const { data: menuList = [], refresh: refreshMenuList } = useRequest(
+    async () => {
+      const res = await axios.get(`${apiPrefix}/rights?_embed=children`);
+      return res.data;
+    },
+  );
+
   useEffect(() => {
-    axios.get('http://localhost:3000/rights?_embed=children').then(res => {
-      setMenuList(res.data);
-    });
+    setRefreshMenuList(refreshMenuList);
   }, []);
 
   return (

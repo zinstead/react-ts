@@ -1,12 +1,35 @@
 import { getRightList } from '@/utils';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Space, Table, TableProps, Tag } from 'antd';
+import {
+  Button,
+  message,
+  Popconfirm,
+  Space,
+  Table,
+  TableProps,
+  Tag,
+} from 'antd';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useRequest } from 'ahooks';
+import { useSidebarStore } from '@/zustand/store';
+
+const apiPrefix = 'http://localhost:3000';
+
+interface DataType {
+  id: number;
+  label: string;
+  key: string;
+  grade: number;
+  pagePermission: number;
+  rightId: number;
+  children: DataType[] | null;
+}
 
 const RightList = () => {
-  const [data, setData] = useState<any[]>();
-  const columns: TableProps['columns'] = [
+  const [messageApi, contextHolder] = message.useMessage();
+  const refreshMenuList = useSidebarStore(state => state.refreshMenuList);
+
+  const columns: TableProps<DataType>['columns'] = [
     {
       dataIndex: 'id',
       title: 'ID',
@@ -28,10 +51,18 @@ const RightList = () => {
     {
       dataIndex: 'operator',
       title: '操作',
-      render: () => {
+      render: (_, item) => {
+        const { id, grade } = item;
+
         return (
           <Space>
-            <Button danger icon={<DeleteOutlined />} shape="circle"></Button>
+            <Popconfirm
+              title="删除权限"
+              description="你确定要删除该权限吗？"
+              onConfirm={() => handleDelete(id, grade)}
+            >
+              <Button danger shape="circle" icon={<DeleteOutlined />}></Button>
+            </Popconfirm>
             <Button
               type="primary"
               icon={<EditOutlined />}
@@ -43,15 +74,33 @@ const RightList = () => {
     },
   ];
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/rights?_embed=children').then(res => {
-      const rightList = getRightList(res.data);
-      setData(rightList);
-    });
-  }, []);
+  const { data: rightList, refresh: refreshRightList } = useRequest(
+    async () => {
+      const res = await axios.get(`${apiPrefix}/rights?_embed=children`);
+      return getRightList(res.data);
+    },
+  );
+
+  const handleDelete = async (id: number, grade: number) => {
+    if (grade === 1) {
+      // 这样做会同时删除包含该外键的记录
+      await axios.delete(`${apiPrefix}/rights/${id}`);
+    } else if (grade === 2) {
+      await axios.delete(`${apiPrefix}/children/${id}`);
+    }
+    messageApi.success('删除成功');
+    refreshRightList();
+    refreshMenuList();
+  };
+
   return (
     <div>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} />
+      {contextHolder}
+      <Table
+        columns={columns}
+        dataSource={rightList}
+        pagination={{ pageSize: 5 }}
+      />
     </div>
   );
 };
