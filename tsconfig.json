@@ -5,7 +5,7 @@
         "paths": {
             "@/*": ["./src/*"],
         },
-        // "baseUrl": "./",
+        "baseUrl": "./",
         // "noEmit": true,
         // "jsx": "preserve",
         // "strict": true,
