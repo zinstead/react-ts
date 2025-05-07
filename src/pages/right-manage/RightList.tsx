@@ -4,7 +4,9 @@ import {
   Button,
   message,
   Popconfirm,
+  Popover,
   Space,
+  Switch,
   Table,
   TableProps,
   Tag,
@@ -12,8 +14,7 @@ import {
 import axios from 'axios';
 import { useRequest } from 'ahooks';
 import { useSidebarStore } from '@/zustand/store';
-
-const apiPrefix = 'http://localhost:3000';
+import { apiPrefix } from '@/api';
 
 interface DataType {
   id: number;
@@ -28,6 +29,17 @@ interface DataType {
 const RightList = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const refreshMenuList = useSidebarStore(state => state.refreshMenuList);
+
+  const onEditPermission = async (item: DataType) => {
+    const { id, grade, pagePermission } = item;
+    if (grade === 1) {
+      await axios.patch(`${apiPrefix}/rights/${id}`, { pagePermission: pagePermission === 1 ? 0 : 1 })
+    } else {
+      await axios.patch(`${apiPrefix}/children/${id}`, { pagePermission: pagePermission === 1 ? 0 : 1 })
+    }
+    refreshRightList();
+    refreshMenuList();
+  }
 
   const columns: TableProps<DataType>['columns'] = [
     {
@@ -52,7 +64,7 @@ const RightList = () => {
       dataIndex: 'operator',
       title: '操作',
       render: (_, item) => {
-        const { id, grade } = item;
+        const { id, grade, pagePermission } = item;
 
         return (
           <Space>
@@ -63,11 +75,14 @@ const RightList = () => {
             >
               <Button danger shape="circle" icon={<DeleteOutlined />}></Button>
             </Popconfirm>
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              shape="circle"
-            ></Button>
+            <Popover title='页面配置项' content={<Switch defaultChecked={pagePermission === 1} onChange={() => { onEditPermission(item) }} disabled={pagePermission === undefined} />} >
+              <Button
+                type="primary"
+                icon={<EditOutlined />}
+                shape="circle"
+                disabled={pagePermission === undefined}
+              ></Button>
+            </Popover>
           </Space>
         );
       },
