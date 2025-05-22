@@ -93,7 +93,7 @@ const NewsSandbox = () => {
             />
             <div style={{ padding: '0 24px' }}>
               <Space>
-                <span>欢迎你，alan</span>
+                <span>欢迎回来，admin</span>
                 <Dropdown menu={{ items }}>
                   <Avatar size={32} icon={<UserOutlined />} />
                 </Dropdown>

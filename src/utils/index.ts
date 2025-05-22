@@ -18,3 +18,21 @@ export const getRightList=(rightList:RightItem[]):any[]=>{
     }
   })
 }
+
+interface TreeNode {
+  label: string;
+  children?: TreeNode[];
+  [key: string]: any;
+}
+
+interface ConvertedNode {
+  title: string;
+  children?: ConvertedNode[];
+  [key: string]: any;
+}
+
+export const convertLabelToTitle = (data:TreeNode[]):ConvertedNode[] => data.map(({ label, children, ...rest }) => ({
+  ...rest,
+  title: label,
+  ...(children ? { children: convertLabelToTitle(children) } : null)
+}));

@@ -4,15 +4,15 @@ import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/404';
 import RightList from '@/pages/right-manage/RightList';
+import RoleList from '@/pages/right-manage//RoleList';
+import UserList from '@/pages/user-manage/UserList';
 import './App.css';
 
 const App = () => {
   const element = useRoutes([
     {
       path: '/',
-      element: 
-          <NewsSandbox />
-      ,
+      element: <NewsSandbox />,
       children: [
         {
           index: true,
@@ -35,6 +35,26 @@ const App = () => {
                   element: <RightList />,
                 },
               ],
+            },
+            {
+              path: 'role',
+              element: <Outlet />,
+              children: [
+                {
+                  path: 'list',
+                  element: <RoleList />,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: 'user-manage',
+          element: <Outlet />,
+          children: [
+            {
+              path: 'list',
+              element: <UserList />,
             },
           ],
         },
